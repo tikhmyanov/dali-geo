@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Authentication required"
+AuthUserFile D:/OpenServer/domains/map.dali-irk.dev/dali-geo/.htpasswd
+Require valid-user
