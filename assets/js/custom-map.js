@@ -7,6 +7,8 @@ $.ajaxSetup({
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Google Map
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var markerPool = [];
+var markerCluster;
 
 function createGoogleMap(_latitude, _longitude){
     setMapHeight();
@@ -31,8 +33,11 @@ function createGoogleMap(_latitude, _longitude){
 
 // Function which set markers on map
 function setMarkers(locations) {
-    var markerPool = [];
-    var i;
+    
+    clearOverlays();
+    var i; /* need add iterator for a not null coordinates */
+
+    $('.list-unstyled').html('');
 
     for (i = 0; i < locations.length; i++) {
 
@@ -118,5 +123,18 @@ function setMarkers(locations) {
         }
     ];
 
-    var markerCluster = new MarkerClusterer(map, markerPool, {styles: clusterStyles, maxZoom: 15});
+    markerCluster = new MarkerClusterer(map, markerPool, {styles: clusterStyles, maxZoom: 15});
+}
+
+function clearOverlays() {
+  if (markerCluster)
+    markerCluster.setMap(null);
+
+  for (var i = 0; i < markerPool.length; i++ ) {
+    if (typeof(markerPool[i]) == 'object') {
+        markerPool[i].setMap(null);
+        console.log('here');
+    }
+  }
+  markerPool.length = 0;
 }
